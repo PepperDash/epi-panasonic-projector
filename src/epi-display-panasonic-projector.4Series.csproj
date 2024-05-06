@@ -22,6 +22,10 @@
 		<PackageTags>crestron 4series panasonic projector</PackageTags>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>$(DefineConstants);SERIES4</DefineConstants>
+	</PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Properties\**" />
     <EmbeddedResource Remove="Properties\**" />

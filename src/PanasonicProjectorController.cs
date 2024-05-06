@@ -672,6 +672,20 @@ namespace PepperDash.Essentials.Displays
                 }
 
                 CurrentInputFeedback.FireUpdate();
+                
+#if SERIES4
+                byte b = (byte) _currentInput;
+                if (Inputs.Items.ContainsKey(b))
+                {
+                    Inputs.CurrentItem = b;
+                }
+                foreach (var item in Inputs.Items)
+                {
+                    item.Value.IsSelected = item.Key.Equals(b);
+                }
+                    
+                Inputs.CurrentItem = b;
+#endif
             }
         }
 

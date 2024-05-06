@@ -234,7 +234,33 @@ namespace PepperDash.Essentials.Displays
             {
                 Items = new Dictionary<byte, ISelectableItem>
                 {
-                    
+                    {
+                        1, new PanasonicInput("1", "Computer 1", this, () => SetInput(eInputTypes.Rg1))
+                    },
+                    {
+                        2, new PanasonicInput("2", "Computer 2", this, () => SetInput(eInputTypes.Rg2))
+                    },
+                    {
+                        3, new PanasonicInput("3", "Video", this, () => SetInput(eInputTypes.Vid))
+                    },
+                    {
+                        4, new PanasonicInput("4", "S-Video", this, () => SetInput(eInputTypes.Svd))
+                    },
+                    {
+                        5, new PanasonicInput("5", "DVI", this, () => SetInput(eInputTypes.Dvi))
+                    },
+                    {
+                        6, new PanasonicInput("6", "HDMI 1", this, () => SetInput(eInputTypes.Hd1))
+                    },
+                    {
+                        7, new PanasonicInput("7", "HDMI 2", this, () => SetInput(eInputTypes.Hd2))
+                    },
+                    {
+                        8, new PanasonicInput("8", "SDI", this, () => SetInput(eInputTypes.Sd1))
+                    },
+                    {
+                        9, new PanasonicInput("9", "Digital Link", this, () => SetInput(eInputTypes.Dl1))
+                    }
                 }
             };
 

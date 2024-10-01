@@ -8,14 +8,19 @@ on:
 jobs:
   getVersion:
     uses: PepperDash/workflow-templates/.github/workflows/essentialsplugins-getversion.yml@main
-    secrets: inherit
+    secrets: inherit    
+  
+  printOutputs:
+    runs-on: ubuntu-latest
+    needs: getVersion
     steps:
-      - name: Print outputs
+      - name: Print Outputs
         run: |
-          newVersion: "${{ needs.getVersion.outputs.newVersion }}"
-          version: "${{ needs.getVersion.outputs.version }}"
-          tag: "${{ needs.getVersion.outputs.tag }}"
-          channel: "${{ needs.getVersion.outputs.channel }}"
+          echo "newVersion: ${{ needs.getVersion.outputs.newVersion }}"
+          echo "version: ${{ needs.getVersion.outputs.version }}"
+          echo "tag: ${{ needs.getVersion.outputs.tag }}"
+          echo "channel: ${{ needs.getVersion.outputs.channel }}"
+
   build-3Series:  
     uses: PepperDash/workflow-templates/.github/workflows/essentialsplugins-3Series-builds.yml@main
     secrets: inherit
@@ -26,6 +31,7 @@ jobs:
       version: ${{ needs.getVersion.outputs.version }}
       tag: ${{ needs.getVersion.outputs.tag }}
       channel: ${{ needs.getVersion.outputs.channel }}
+  
   build-4Series:
     uses: PepperDash/workflow-templates/.github/workflows/essentialsplugins-4Series-builds.yml@main
     secrets: inherit

@@ -9,6 +9,13 @@ jobs:
   getVersion:
     uses: PepperDash/workflow-templates/.github/workflows/essentialsplugins-getversion.yml@main
     secrets: inherit
+    steps:
+      - name: Print outputs
+        run: |
+          newVersion: "${{ needs.getVersion.outputs.newVersion }}"
+          version: "${{ needs.getVersion.outputs.version }}"
+          tag: "${{ needs.getVersion.outputs.tag }}"
+          channel: "${{ needs.getVersion.outputs.channel }}"
   build-3Series:  
     uses: PepperDash/workflow-templates/.github/workflows/essentialsplugins-3Series-builds.yml@main
     secrets: inherit

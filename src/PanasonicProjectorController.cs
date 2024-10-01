@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using Crestron.SimplSharp;
 using Crestron.SimplSharp.Cryptography;
@@ -8,10 +7,13 @@ using PepperDash.Core;
 using PepperDash.Essentials.Core;
 using PepperDash.Essentials.Core.Bridges;
 using PepperDash.Essentials.Core.Queues;
-using PepperDash.Essentials.Core.Routing;
-using PepperDash.Essentials.Core.DeviceTypeInterfaces;
+
 #if SERIES4
+using System.Collections.Generic;
+using PepperDash.Essentials.Core.DeviceTypeInterfaces;
 using TwoWayDisplayBase = PepperDash.Essentials.Devices.Common.Displays.TwoWayDisplayBase;
+#else
+using PepperDash.Essentials.Core.Routing;
 #endif
 
 namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
@@ -76,11 +78,14 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
         /// <param name="config"></param>
         /// <param name="comms"></param>
         public PanasonicProjectorController(string key, string name, PanasonicProjectorConfig config,
-            IBasicCommunication comms)
+        IBasicCommunication comms)
             : base(key, name)
         {
+#if SERIES4
+            Debug.LogMessage(Serilog.Events.LogEventLevel.Verbose, $"Constructing new {this.Name} instance", this);
+#else
             Debug.Console(0, this, "Constructing new {0} instance", name);
-
+#endif
             _rxQueue = new GenericQueue(String.Format("{0}-rxQueue", Key));
             _txQueue = new CrestronQueue<string>(50);
 
@@ -96,8 +101,12 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 
             if (_commandBuilder == null)
             {
+#if SERIES4
+                Debug.LogMessage(Serilog.Events.LogEventLevel.Error, "Command builder not created. Unable to continue. Please correct the configuration to use either 'com' or 'tcpip' as the control method", this);
+#else
                 Debug.Console(0, Debug.ErrorLogLevel.Error,
                     "Command builder not created. Unable to continue. Please correct the configuration to use either 'com' or 'tcpip' as the control method");
+#endif
                 return;
             }
 
@@ -136,7 +145,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
                 }
                 catch (Exception ex)
                 {
+#if SERIES4
+                    Debug.LogMessage(ex, $"Caught an exception in the poll: {ex.Message}", this);
+#else
                     Debug.Console(1, this, Debug.ErrorLogLevel.Notice, "Caught an exception in the poll:{0}", ex.Message);
+#endif
                     throw;
                 }
             }, null, 50000, 50000);
@@ -172,9 +185,12 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
             {
                 return new IpCommandBuilder();
             }
-
+#if SERIES4
+            Debug.LogMessage(Serilog.Events.LogEventLevel.Verbose, $"Control method {config.Control.Method} isn't valid for this plugin.", this);
+#else
             Debug.Console(0, this, Debug.ErrorLogLevel.Error, "Control method {0} isn't valid for this plugin.",
                 config.Control.Method);
+#endif
             return null;
         }
 
@@ -217,7 +233,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 
             if (_txQueue.IsEmpty)
             {
+#if SERIES4
+                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Queue is empty we're out!", this);
+#else
                 Debug.Console(1, this, "Queue is empty we're out!");
+#endif
                 return null;
             }
 
@@ -225,8 +245,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 
             if (String.IsNullOrEmpty(cmdToSend))
             {
+#if SERIES4
+                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Unable to get command to send", this);
+#else
                 Debug.Console(1, this, "Unable to get command to send");
-
+#endif
             }
 
             _currentCommand = cmdToSend;
@@ -315,7 +338,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
             {
 
                 _txQueue.Enqueue(text);
+#if SERIES4
+                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Queue isn't empty and client isn't connected, connecting...", this);
+#else
                 Debug.Console(1, this, "Queue isn't empty and client isn't connected, connecting...");
+#endif
                 CrestronInvoke.BeginInvoke(_ => _comms.Connect());
             }
         }
@@ -346,7 +373,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 
         public void Poll()
         {
-            Debug.Console(1, this, "Sending poll...");
+#if SERIES4
+            Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Sending poll...", this);
+#else
+                Debug.Console(1, this, "Sending poll...");
+#endif
             SendText(_commandBuilder.GetCommand("QPW"));
         }        
 
@@ -406,7 +437,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
             get { return _powerIsOn; }
             set
             {
+#if SERIES4
+                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Setting PowerIsOn to {value} from {_powerIsOn}", this);
+#else
                 Debug.Console(1, this, "Setting powerIsOn to {0} from {1}", value, _powerIsOn);
+#endif
 
                 if (value == _powerIsOn)
                 {
@@ -425,7 +460,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
             {
                 return () =>
                 {
+#if SERIES4
+                    Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Updating PowerIsOnFeedback to {_powerIsOn}", this);
+#else
                     Debug.Console(1, this, "Updating PowerIsOnFeedback to {0}", PowerIsOn);
+#endif                    
                     return PowerIsOn;
                 };
             }
@@ -603,7 +642,11 @@ namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 
                 if (handler == null)
                 {
+#if SERIES4
+                    Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Unable to switch using selector {selector}", this);
+#else
                     Debug.Console(1, this, "Unable to switch using selector {0}", selector);
+#endif
                     return;
                 }
 

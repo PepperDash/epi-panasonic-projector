@@ -16,7 +16,7 @@ using TwoWayDisplayBase = PepperDash.Essentials.Devices.Common.Displays.TwoWayDi
 using PepperDash.Essentials.Core.Routing;
 #endif
 
-namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
+namespace PanasonicProjectorEpi
 {
     /// <summary>
     /// Plugin device template for third party devices that use IBasicCommunication

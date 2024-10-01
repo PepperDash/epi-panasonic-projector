@@ -3,7 +3,7 @@ using PepperDash.Essentials.Core;
 using PepperDash.Essentials.Core.Config;
 using System.Collections.Generic;
 
-namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
+namespace PanasonicProjectorEpi
 {
     /// <summary>
     /// Plugin device factory for devices that use IBasicCommunication

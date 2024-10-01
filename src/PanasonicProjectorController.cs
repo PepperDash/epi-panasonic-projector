@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Crestron.SimplSharp;
 using Crestron.SimplSharp.Cryptography;
@@ -8,6 +9,7 @@ using PepperDash.Essentials.Core;
 using PepperDash.Essentials.Core.Bridges;
 using PepperDash.Essentials.Core.Queues;
 using PepperDash.Essentials.Core.Routing;
+using PepperDash.Essentials.Core.DeviceTypeInterfaces;
 
 namespace PepperDash.Essentials.Displays
 {
@@ -21,6 +23,9 @@ namespace PepperDash.Essentials.Displays
     /// "EssentialsPluginDeviceTemplate" renamed to "SamsungMdcDevice"
     /// </example>
     public class PanasonicProjectorController : TwoWayDisplayBase, IBridgeAdvanced, ICommunicationMonitor
+#if SERIES4
+        ,IHasInputs<byte, int>
+#endif
     {
         private const long DefaultWarmUpTimeMs = 1000;
         private const long DefaultCooldownTimeMs = 2000;
@@ -125,6 +130,10 @@ namespace PepperDash.Essentials.Displays
             _commsGather.LineReceived += Handle_LineRecieved;
 
             SetUpInputPorts();
+            
+#if SERIES4
+            SetupInputs4Series();
+#endif
         }
 
         public bool PowerIsOn
@@ -217,6 +226,47 @@ namespace PepperDash.Essentials.Displays
 
             return base.CustomActivate();
         }
+        
+#if SERIES4
+        private void SetupInputs4Series()
+        {
+            Inputs = new PanasonicInputs()
+            {
+                Items = new Dictionary<byte, ISelectableItem>
+                {
+                    {
+                        1, new PanasonicInput("1", "Computer 1", this, () => SetInput(eInputTypes.Rg1))
+                    },
+                    {
+                        2, new PanasonicInput("2", "Computer 2", this, () => SetInput(eInputTypes.Rg2))
+                    },
+                    {
+                        3, new PanasonicInput("3", "Video", this, () => SetInput(eInputTypes.Vid))
+                    },
+                    {
+                        4, new PanasonicInput("4", "S-Video", this, () => SetInput(eInputTypes.Svd))
+                    },
+                    {
+                        5, new PanasonicInput("5", "DVI", this, () => SetInput(eInputTypes.Dvi))
+                    },
+                    {
+                        6, new PanasonicInput("6", "HDMI 1", this, () => SetInput(eInputTypes.Hd1))
+                    },
+                    {
+                        7, new PanasonicInput("7", "HDMI 2", this, () => SetInput(eInputTypes.Hd2))
+                    },
+                    {
+                        8, new PanasonicInput("8", "SDI", this, () => SetInput(eInputTypes.Sd1))
+                    },
+                    {
+                        9, new PanasonicInput("9", "Digital Link", this, () => SetInput(eInputTypes.Dl1))
+                    }
+                }
+            };
+
+
+        }
+#endif
 
         private void SetUpInputPorts()
         {
@@ -583,6 +633,24 @@ namespace PepperDash.Essentials.Displays
         }
 
         #endregion
+        
+#if SERIES4
+        public ISelectableItems<byte> Inputs { get; private set; }
+
+
+        //what I need to do, use existing logic that sets inputs and passes into an int value, and have that value select the
+        //input from the list of ISelectableItems Inputs
+
+        /* To-Do: Find the actual thing that sends the command.
+         Build a class that satisfies Iselectable Items and an IselectableItems Class
+            Each Input needs an implementation of Select and IsSelected, look at LG for examples
+            ALL I NEED TO DO IS: when select is asserted on the input, it sends the command to the display
+            when the main class parses the current selected input, it should iterate through my ISelectableItems and set them accordingly
+
+        Create a separate file for the inputs class (see LG )
+        The select method should just have an Action, and I can pass in the input method to be called
+            */
+#endif
 
         public string CurrentInput
         {
@@ -604,6 +672,20 @@ namespace PepperDash.Essentials.Displays
                 }
 
                 CurrentInputFeedback.FireUpdate();
+                
+#if SERIES4
+                byte b = (byte) _currentInput;
+                if (Inputs.Items.ContainsKey(b))
+                {
+                    Inputs.CurrentItem = b;
+                }
+                foreach (var item in Inputs.Items)
+                {
+                    item.Value.IsSelected = item.Key.Equals(b);
+                }
+                    
+                Inputs.CurrentItem = b;
+#endif
             }
         }
 

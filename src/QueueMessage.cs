@@ -3,7 +3,7 @@ using PepperDash.Essentials.Core.Queues;
 
 namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 {
-    public class QueueMessage:IQueueMessage
+    public class QueueMessage : IQueueMessage
     {
         private readonly Action _dispatchAction;
 

@@ -107,8 +107,8 @@
     <Compile Include="ICommandBuilder.cs" />
     <Compile Include="IpCommandBuilder.cs" />
     <Compile Include="PanasonicIpStatusMonitor.cs" />
-    <Compile Include="PanasonicProjectorControllerConfig.cs" />
-    <Compile Include="PanasonicProjectorControllerFactory.cs" />
+    <Compile Include="PanasonicProjectorConfig.cs" />
+    <Compile Include="PanasonicProjectorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PanasonicProjectorController.cs" />
     <Compile Include="QueueMessage.cs" />

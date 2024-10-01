@@ -2,7 +2,7 @@
 
 namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 {
-    public class SerialCommandBuilder:ICommandBuilder
+    public class SerialCommandBuilder : ICommandBuilder
     {
         public string Delimiter
         {

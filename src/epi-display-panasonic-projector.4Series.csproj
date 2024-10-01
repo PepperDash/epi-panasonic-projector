@@ -40,4 +40,12 @@
     <PackageReference Include="PepperDashEssentials" Version="2.0.0-alpha-2472" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="../output\epi-display-panasonic-projector.4Series.1.0.0-local.cplz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="../output\epi-display-panasonic-projector.4Series.1.0.0-local.cplz" />
+  </ItemGroup>
+
 </Project>

@@ -11,7 +11,7 @@ using PepperDash.Essentials.Core.Queues;
 using PepperDash.Essentials.Core.Routing;
 using PepperDash.Essentials.Core.DeviceTypeInterfaces;
 
-namespace PepperDash.Essentials.Displays
+namespace PanasonicProjectorEpi
 {
     /// <summary>
     /// Plugin device template for third party devices that use IBasicCommunication

@@ -1,7 +1,7 @@
 ﻿using PepperDash.Core;
 using PepperDash.Essentials.Core;
 
-namespace PepperDash.Essentials
+namespace PanasonicProjectorEpi
 {
     public class PanasonicStatusMonitor : StatusMonitorBase
     {

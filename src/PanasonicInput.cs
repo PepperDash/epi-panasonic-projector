@@ -1,11 +1,10 @@
+using PepperDash.Essentials.Core.DeviceTypeInterfaces;
 using System;
 using System.Collections.Generic;
-using PepperDash.Essentials.Core.DeviceTypeInterfaces;
-using PepperDash.Essentials.Displays;
 
-namespace PepperDash.Essentials.Displays
+namespace PanasonicProjectorEpi
 {
-   #if SERIES4
+#if SERIES4
     public class PanasonicInputs : ISelectableItems<byte>
     {
         private Dictionary<byte, ISelectableItem> _items = new Dictionary<byte, ISelectableItem>();

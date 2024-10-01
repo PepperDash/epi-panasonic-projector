@@ -4,7 +4,7 @@ using PepperDash.Essentials.Core;
 using PepperDash.Essentials.Core.Config;
 using Crestron.SimplSharpPro.UI;
 
-namespace PepperDash.Essentials.Displays
+namespace PanasonicProjectorEpi
 {
 	/// <summary>
 	/// Plugin device factory for devices that use IBasicCommunication

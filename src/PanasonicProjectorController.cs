@@ -11,17 +11,11 @@ using PepperDash.Essentials.Core.Queues;
 using PepperDash.Essentials.Core.Routing;
 using PepperDash.Essentials.Core.DeviceTypeInterfaces;
 
-namespace PanasonicProjectorEpi
+namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 {
     /// <summary>
     /// Plugin device template for third party devices that use IBasicCommunication
     /// </summary>
-    /// <remarks>
-    /// Rename the class to match the device plugin being developed.
-    /// </remarks>
-    /// <example>
-    /// "EssentialsPluginDeviceTemplate" renamed to "SamsungMdcDevice"
-    /// </example>
     public class PanasonicProjectorController : TwoWayDisplayBase, IBridgeAdvanced, ICommunicationMonitor
 #if SERIES4
         ,IHasInputs<byte, int>

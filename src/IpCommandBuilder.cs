@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PanasonicProjectorEpi
+namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 {
     public class IpCommandBuilder:ICommandBuilder
     {

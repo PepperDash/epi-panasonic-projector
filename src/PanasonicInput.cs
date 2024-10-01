@@ -2,7 +2,7 @@ using PepperDash.Essentials.Core.DeviceTypeInterfaces;
 using System;
 using System.Collections.Generic;
 
-namespace PanasonicProjectorEpi
+namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
 {
 #if SERIES4
     public class PanasonicInputs : ISelectableItems<byte>

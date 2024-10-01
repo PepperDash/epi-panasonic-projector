@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PepperDash.Essentials.Core;
 
-namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
+namespace PanasonicProjectorEpi
 {
     /// <summary>
     /// Plugin device configuration object

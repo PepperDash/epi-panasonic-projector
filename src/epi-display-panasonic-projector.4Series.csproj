@@ -6,9 +6,9 @@
 
 	<PropertyGroup>
 		<TargetFramework>net472</TargetFramework>
-		<RootNamespace>Pepperdash.Essentials.Plugins.Display.Panasonic.Projector</RootNamespace>
+		<RootNamespace>PanasonicProjectorEpi</RootNamespace>
 		<Deterministic>false</Deterministic>
-		<AssemblyTitle>EPI.Panasonic.Projector</AssemblyTitle>
+		<AssemblyTitle>PepperDash.Essentials.Plugin.PanasonicProjector</AssemblyTitle>
 		<Company>PepperDash Technologies</Company>
 		<Description>This software is a plugin designed to work as a part of PepperDash Essentials for Crestron control processors. This plugin allows for control of Panasonic Projectors.</Description>
 		<Copyright>Copyright 2024</Copyright>

@@ -1,7 +1,7 @@
 ﻿using System;
 using PepperDash.Essentials.Core.Queues;
 
-namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
+namespace PanasonicProjectorEpi
 {
     public class QueueMessage : IQueueMessage
     {

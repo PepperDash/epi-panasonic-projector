@@ -1,4 +1,4 @@
-﻿namespace PepperDash.Essentials.Plugins.Display.Panasonic.Projector
+﻿namespace PanasonicProjectorEpi
 {
     public interface ICommandBuilder
     {

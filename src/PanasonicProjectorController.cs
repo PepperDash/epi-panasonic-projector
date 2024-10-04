@@ -7,13 +7,12 @@ using PepperDash.Core;
 using PepperDash.Essentials.Core;
 using PepperDash.Essentials.Core.Bridges;
 using PepperDash.Essentials.Core.Queues;
-using PepperDash.Core.Logging;
-
 
 #if SERIES4
 using System.Collections.Generic;
 using PepperDash.Essentials.Core.DeviceTypeInterfaces;
 using TwoWayDisplayBase = PepperDash.Essentials.Devices.Common.Displays.TwoWayDisplayBase;
+using PepperDash.Core.Logging;
 #else
 using PepperDash.Essentials.Core.Routing;
 #endif

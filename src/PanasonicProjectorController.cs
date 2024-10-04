@@ -7,6 +7,8 @@ using PepperDash.Core;
 using PepperDash.Essentials.Core;
 using PepperDash.Essentials.Core.Bridges;
 using PepperDash.Essentials.Core.Queues;
+using PepperDash.Core.Logging;
+
 
 #if SERIES4
 using System.Collections.Generic;
@@ -23,7 +25,7 @@ namespace PanasonicProjectorEpi
     /// </summary>
     public class PanasonicProjectorController : TwoWayDisplayBase, IBridgeAdvanced, ICommunicationMonitor
 #if SERIES4
-        , IHasInputs<byte, int>
+        , IHasInputs<byte>
 #endif
     {
         private const long DefaultWarmUpTimeMs = 1000;
@@ -82,7 +84,7 @@ namespace PanasonicProjectorEpi
             : base(key, name)
         {
 #if SERIES4
-            Debug.LogMessage(Serilog.Events.LogEventLevel.Verbose, $"Constructing new {this.Name} instance", this);
+            this.LogVerbose("Constructing new {name} instance", name);
 #else
             Debug.Console(0, this, "Constructing new {0} instance", name);
 #endif
@@ -102,7 +104,7 @@ namespace PanasonicProjectorEpi
             if (_commandBuilder == null)
             {
 #if SERIES4
-                Debug.LogMessage(Serilog.Events.LogEventLevel.Error, "Command builder not created. Unable to continue. Please correct the configuration to use either 'com' or 'tcpip' as the control method", this);
+                this.LogError("Command builder not created.  Unable to continue.  Please correct the configuration to use either 'com' or 'tcpip' as the control method.");
 #else
                 Debug.Console(0, Debug.ErrorLogLevel.Error,
                     "Command builder not created. Unable to continue. Please correct the configuration to use either 'com' or 'tcpip' as the control method");
@@ -146,7 +148,7 @@ namespace PanasonicProjectorEpi
                 catch (Exception ex)
                 {
 #if SERIES4
-                    Debug.LogMessage(ex, $"Caught an exception in the poll: {ex.Message}", this);
+                    Debug.LogMessage(ex, $"Caught an exception in the poll", this);
 #else
                     Debug.Console(1, this, Debug.ErrorLogLevel.Notice, "Caught an exception in the poll:{0}", ex.Message);
 #endif
@@ -186,7 +188,7 @@ namespace PanasonicProjectorEpi
                 return new IpCommandBuilder();
             }
 #if SERIES4
-            Debug.LogMessage(Serilog.Events.LogEventLevel.Verbose, $"Control method {config.Control.Method} isn't valid for this plugin.", this);
+            this.LogVerbose("Control method {method} isn't valid for this plugin.", config.Control.Method);
 #else
             Debug.Console(0, this, Debug.ErrorLogLevel.Error, "Control method {0} isn't valid for this plugin.",
                 config.Control.Method);
@@ -234,7 +236,7 @@ namespace PanasonicProjectorEpi
             if (_txQueue.IsEmpty)
             {
 #if SERIES4
-                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Queue is empty we're out!", this);
+                this.LogDebug("Queue is empty, we're out!");
 #else
                 Debug.Console(1, this, "Queue is empty we're out!");
 #endif
@@ -246,7 +248,7 @@ namespace PanasonicProjectorEpi
             if (String.IsNullOrEmpty(cmdToSend))
             {
 #if SERIES4
-                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Unable to get command to send", this);
+                this.LogDebug("Unable to get command to send");
 #else
                 Debug.Console(1, this, "Unable to get command to send");
 #endif
@@ -339,7 +341,7 @@ namespace PanasonicProjectorEpi
 
                 _txQueue.Enqueue(text);
 #if SERIES4
-                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Queue isn't empty and client isn't connected, connecting...", this);
+                this.LogDebug("Queue isn't empty and client isn't connected, connecting...");
 #else
                 Debug.Console(1, this, "Queue isn't empty and client isn't connected, connecting...");
 #endif
@@ -374,9 +376,9 @@ namespace PanasonicProjectorEpi
         public void Poll()
         {
 #if SERIES4
-            Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Sending poll...", this);
+            this.LogDebug("Sending poll...");
 #else
-                Debug.Console(1, this, "Sending poll...");
+            Debug.Console(1, this, "Sending poll...");
 #endif
             SendText(_commandBuilder.GetCommand("QPW"));
         }        
@@ -438,7 +440,7 @@ namespace PanasonicProjectorEpi
             set
             {
 #if SERIES4
-                Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Setting PowerIsOn to {value} from {_powerIsOn}", this);
+                this.LogDebug("Setting PowerIsOn to {value} from {powerIsOn}", value, _powerIsOn);
 #else
                 Debug.Console(1, this, "Setting powerIsOn to {0} from {1}", value, _powerIsOn);
 #endif
@@ -461,7 +463,7 @@ namespace PanasonicProjectorEpi
                 return () =>
                 {
 #if SERIES4
-                    Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Updating PowerIsOnFeedback to {_powerIsOn}", this);
+                    this.LogDebug("Updating PowerIsOnFeedback to {powerIsOn}", _powerIsOn);
 #else
                     Debug.Console(1, this, "Updating PowerIsOnFeedback to {0}", PowerIsOn);
 #endif                    
@@ -643,7 +645,7 @@ namespace PanasonicProjectorEpi
                 if (handler == null)
                 {
 #if SERIES4
-                    Debug.LogMessage(Serilog.Events.LogEventLevel.Debug, $"Unable to switch using selector {selector}", this);
+                    this.LogDebug("Unable to switch using selector {selector}", selector);
 #else
                     Debug.Console(1, this, "Unable to switch using selector {0}", selector);
 #endif

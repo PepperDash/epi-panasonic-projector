@@ -540,7 +540,7 @@ namespace PanasonicProjectorEpi
                     }
                 }
             };
-#else
+#endif
 			// 3-series logic
             var computer1 = new RoutingInputPort(RoutingPortNames.VgaIn, eRoutingSignalType.Video,
                 eRoutingPortConnectionType.Vga, new Action(() => SetInput(eInputTypes.Rg1)), this);
@@ -579,7 +579,6 @@ namespace PanasonicProjectorEpi
             InputPorts.Add(hdmi2);
             InputPorts.Add(sdi);
             InputPorts.Add(digitalLink);
-#endif
         }
 
         public void SetInput(eInputTypes input)

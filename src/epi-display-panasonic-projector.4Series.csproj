@@ -37,8 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="PepperDashEssentials" Version="2.0.0-beta-2559" />
-  </ItemGroup>
+	  <PackageReference Include="PepperDashEssentials" Version="2.1.0" >
+		  <ExcludeAssets>runtime</ExcludeAssets>
+	  </PackageReference>  </ItemGroup>
 
   <ItemGroup>
     <None Remove="../output\epi-display-panasonic-projector.4Series.1.0.0-local.cplz" />

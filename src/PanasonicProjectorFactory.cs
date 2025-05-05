@@ -17,7 +17,7 @@ namespace PanasonicProjectorEpi
         {
 #if SERIES4
             // Set the minimum Essentials Framework Version
-            MinimumEssentialsFrameworkVersion = "2.0.0";
+            MinimumEssentialsFrameworkVersion = "2.4.7";
 #else
             // Set the minimum Essentials Framework Version
             MinimumEssentialsFrameworkVersion = "1.11.1";

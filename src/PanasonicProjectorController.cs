@@ -173,8 +173,13 @@ namespace PanasonicProjectorEpi
             var joinMap = new ExtendedDisplayJoinMap(joinStart);
             if (bridge != null)
                 bridge.AddJoinMap(Key, joinMap);
-            
-            //LinkDisplayToApi(this, trilist, joinStart, joinMapKey, bridge);
+
+            CommunicationMonitor.IsOnlineFeedback.LinkInputSig(trilist.BooleanInput[joinMap.Connect.JoinNumber]);
+
+            trilist.SetSigTrueAction(joinMap.Connect.JoinNumber, _comms.Connect);
+
+            trilist.SetSigFalseAction(joinMap.Connect.JoinNumber, _comms.Disconnect);
+
             LinkDisplayToApi(this, trilist, joinMap);
         }
 

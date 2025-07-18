@@ -20,21 +20,7 @@ namespace PanasonicProjectorEpi
             new JoinMetadata
             {
                 Description = "Connect Socket",
-                JoinCapabilities = eJoinCapabilities.ToSIMPL,
-                JoinType = eJoinType.Digital
-            });
-
-        [JoinName("Disconnect")]
-        public JoinDataComplete Disconnect = new JoinDataComplete(
-            new JoinData
-            {
-                JoinNumber = 256,
-                JoinSpan = 1
-            },
-            new JoinMetadata
-            {
-                Description = "Disconnect Socket",
-                JoinCapabilities = eJoinCapabilities.ToSIMPL,
+                JoinCapabilities = eJoinCapabilities.ToFromSIMPL,
                 JoinType = eJoinType.Digital
             });
 

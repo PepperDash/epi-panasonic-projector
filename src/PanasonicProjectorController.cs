@@ -170,7 +170,12 @@ namespace PanasonicProjectorEpi
 
         public void LinkToApi(BasicTriList trilist, uint joinStart, string joinMapKey, EiscApiAdvanced bridge)
         {
-            LinkDisplayToApi(this, trilist, joinStart, joinMapKey, bridge);
+            var joinMap = new ExtendedDisplayJoinMap(joinStart);
+            if (bridge != null)
+                bridge.AddJoinMap(Key, joinMap);
+            
+            //LinkDisplayToApi(this, trilist, joinStart, joinMapKey, bridge);
+            LinkDisplayToApi(this, trilist, joinMap);
         }
 
         #endregion

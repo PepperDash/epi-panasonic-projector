@@ -170,11 +170,9 @@ namespace PanasonicProjectorEpi
 
         public void LinkToApi(BasicTriList trilist, uint joinStart, string joinMapKey, EiscApiAdvanced bridge)
         {
-            CrestronConsole.PrintLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LinkToApi method called");
             var joinMap = new ExtendedDisplayJoinMap(joinStart);
             if (bridge != null)
             {
-                CrestronConsole.PrintLine("!!!!!!!!!!!!!!!!!!!!!!! Bridge is not null, attempting to update");
                 bridge.AddJoinMap(Key, joinMap);
                 LinkDisplayToApi(this, trilist, joinMap);
             }

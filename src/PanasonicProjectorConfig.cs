@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PepperDash.Essentials.Core;
+using System.Collections.Generic;
 
 namespace PanasonicProjectorEpi
 {
@@ -19,5 +20,23 @@ namespace PanasonicProjectorEpi
 
         [JsonProperty("cooldownTimeInSeconds")]
         public long CooldownTimeInSeconds { get; set; }
-	}
-}
+
+        [JsonProperty("activeInputs")]
+        public List<ActiveInputs> ActiveInputs { get; set; }
+        }
+
+    public class ActiveInputs
+        {
+        [JsonProperty("key")]
+        public string Key { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        public ActiveInputs()
+            {
+            Key = string.Empty;
+            Name = string.Empty;
+            }
+        }
+    }

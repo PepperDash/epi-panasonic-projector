@@ -539,7 +539,7 @@ namespace PanasonicProjectorEpi
                     {
                     if (allInputs.TryGetValue(activeInput.Key, out var input))
                         {
-                        Inputs.Items.Add(input.Key, new PanasonicInput(input.Value.Key, activeInput.Value, this, input.Value.Select));
+                        Inputs.Items.Add(input.Key, new PanasonicInput(input.Value.Key.ToString(), activeInput.Value, this, input.Value.Select()));
                         }
                     else
                         {

@@ -312,7 +312,7 @@ namespace PanasonicProjectorEpi
                 if (response.ToUpper().Contains("IIS:"))
                     {
                     var splitResponse = response.ToUpper().Split(new[] { "IIS:" }, StringSplitOptions.None);
-                    var input = splitResponse.Length > 0 ? splitResponse.Last().Trim() : string.Empty;
+                    var input = splitResponse.Length > 1 ? splitResponse.Last().Trim() : string.Empty;
                     CurrentInput = input;
                     }
                 }

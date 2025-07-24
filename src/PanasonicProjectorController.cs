@@ -7,6 +7,8 @@ using PepperDash.Core;
 using PepperDash.Essentials.Core;
 using PepperDash.Essentials.Core.Bridges;
 using PepperDash.Essentials.Core.Queues;
+using System.Linq;
+
 
 #if SERIES4
 using System.Collections.Generic;
@@ -307,8 +309,13 @@ namespace PanasonicProjectorEpi
 
             if (_currentCommand.ToLower().Contains("iis"))
             {
-                CurrentInput = response.Replace("iis:", "").Trim();
-            }
+                if (response.ToUpper().Contains("IIS:"))
+                    {
+                    var splitResponse = response.ToUpper().Split(new[] { "IIS:" }, StringSplitOptions.None);
+                    var input = splitResponse.Length > 1 ? splitResponse.Last().Trim() : string.Empty;
+                    CurrentInput = input;
+                    }
+                }
         }
 
 
@@ -352,7 +359,7 @@ namespace PanasonicProjectorEpi
         /// Connects/disconnects the comms of the plugin device
         /// </summary>
         /// <remarks>
-        /// triggers the _comms.Connect/Disconnect as well as thee comms monitor start/stop
+        /// triggers the _comms.Connect/Disconnect as well as the comms monitor start/stop
         /// </remarks>
         public bool Connect
         {
@@ -507,41 +514,59 @@ namespace PanasonicProjectorEpi
         {
 #if SERIES4
             // 4-series logic
-            Inputs = new PanasonicInputs()
-            {
-                Items = new Dictionary<byte, ISelectableItem>
+            if (_config.ActiveInputs != null && _config.ActiveInputs.Count > 0)
                 {
+                Inputs = new PanasonicInputs
                     {
-                        1, new PanasonicInput("1", "Computer 1", this, () => SetInput(eInputTypes.Rg1))
-                    },
+                    Items = new Dictionary<byte, ISelectableItem>()
+                    };
+
+                var activeInputsMap = _config.ActiveInputs.ToDictionary(ai => ai.Key, ai => ai.Name);
+
+                var allInputs = new Dictionary<string, KeyValuePair<byte, PanasonicInput>>
+                {
+                    {"Computer1", new KeyValuePair<byte, PanasonicInput>(1, new PanasonicInput("1", "Computer 1", this, () => SetInput(eInputTypes.Rg1)))},
+                    {"Computer2", new KeyValuePair<byte, PanasonicInput>(2, new PanasonicInput("2", "Computer 2", this, () => SetInput(eInputTypes.Rg2)))},
+                    {"Video",     new KeyValuePair<byte, PanasonicInput>(3, new PanasonicInput("3", "Video", this, () => SetInput(eInputTypes.Vid)))},
+                    {"S-Video",   new KeyValuePair<byte, PanasonicInput>(4, new PanasonicInput("4", "S-Video", this, () => SetInput(eInputTypes.Svd)))},
+                    {"DVI",       new KeyValuePair<byte, PanasonicInput>(5, new PanasonicInput("5", "DVI", this, () => SetInput(eInputTypes.Dvi)))},
+                    {"HDMI1",     new KeyValuePair<byte, PanasonicInput>(6, new PanasonicInput("6", "HDMI 1", this, () => SetInput(eInputTypes.Hd1)))},
+                    {"HDMI2",     new KeyValuePair<byte, PanasonicInput>(7, new PanasonicInput("7", "HDMI 2", this, () => SetInput(eInputTypes.Hd2)))},
+                    {"SDI",       new KeyValuePair<byte, PanasonicInput>(8, new PanasonicInput("8", "SDI", this, () => SetInput(eInputTypes.Sd1)))},
+                    {"DigitalLink", new KeyValuePair<byte, PanasonicInput>(9, new PanasonicInput("9", "Digital Link", this, () => SetInput(eInputTypes.Dl1)))}
+                };
+                foreach (var activeInput in activeInputsMap)
                     {
-                        2, new PanasonicInput("2", "Computer 2", this, () => SetInput(eInputTypes.Rg2))
-                    },
-                    {
-                        3, new PanasonicInput("3", "Video", this, () => SetInput(eInputTypes.Vid))
-                    },
-                    {
-                        4, new PanasonicInput("4", "S-Video", this, () => SetInput(eInputTypes.Svd))
-                    },
-                    {
-                        5, new PanasonicInput("5", "DVI", this, () => SetInput(eInputTypes.Dvi))
-                    },
-                    {
-                        6, new PanasonicInput("6", "HDMI 1", this, () => SetInput(eInputTypes.Hd1))
-                    },
-                    {
-                        7, new PanasonicInput("7", "HDMI 2", this, () => SetInput(eInputTypes.Hd2))
-                    },
-                    {
-                        8, new PanasonicInput("8", "SDI", this, () => SetInput(eInputTypes.Sd1))
-                    },
-                    {
-                        9, new PanasonicInput("9", "Digital Link", this, () => SetInput(eInputTypes.Dl1))
+                    if (allInputs.TryGetValue(activeInput.Key, out var input))
+                        {
+                        Inputs.Items.Add(input.Key, new PanasonicInput(input.Value.Key.ToString(), activeInput.Value, this, input.Value.Select()));
+                        }
+                    else
+                        {
+                        this.LogWarning("ActiveInput key '{0}' not found in allInputs dictionary", activeInput.Key);
+                        }
                     }
                 }
-            };
+            else
+                {
+                Inputs = new PanasonicInputs
+                    {
+                    Items = new Dictionary<byte, ISelectableItem>
+                    {
+                        {1, new PanasonicInput("1", "Computer 1", this, () => SetInput(eInputTypes.Rg1))},
+                        {2, new PanasonicInput("2", "Computer 2", this, () => SetInput(eInputTypes.Rg2))},
+                        {3, new PanasonicInput("3", "Video", this, () => SetInput(eInputTypes.Vid))},
+                        {4, new PanasonicInput("4", "S-Video", this, () => SetInput(eInputTypes.Svd))},
+                        {5, new PanasonicInput("5", "DVI", this, () => SetInput(eInputTypes.Dvi))},
+                        {6, new PanasonicInput("6", "HDMI 1", this, () => SetInput(eInputTypes.Hd1))},
+                        {7, new PanasonicInput("7", "HDMI 2", this, () => SetInput(eInputTypes.Hd2))},
+                        {8, new PanasonicInput("8", "SDI", this, () => SetInput(eInputTypes.Sd1))},
+                        {9, new PanasonicInput("9", "Digital Link", this, () => SetInput(eInputTypes.Dl1))}
+                    }
+                    };
+                }
 #endif
-			// 3-series logic
+            // 3-series logic
             var computer1 = new RoutingInputPort(RoutingPortNames.VgaIn, eRoutingSignalType.Video,
                 eRoutingPortConnectionType.Vga, new Action(() => SetInput(eInputTypes.Rg1)), this);
 

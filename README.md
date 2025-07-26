@@ -95,6 +95,7 @@ This plugin is designed to work with Panasonic projectors controlled via TCP/IP 
               "name": "DVI"
             }
           ]
+    ]
   }
 }
 ```

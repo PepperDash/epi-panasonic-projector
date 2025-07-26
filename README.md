@@ -33,20 +33,20 @@ This plugin is designed to work with Panasonic projectors controlled via TCP/IP 
     "id": "01",
     "warmupTimeInSeconds":1,
     "cooldownTimeInSeconds":2,
-        "activeInputs": [
-            {
-              "key": "HDMI1",
-              "name": "HDMI 1"
-            },
-            {
-              "key": "HDMI2",
-              "name": "HDMI 2"
-            },
-            {
-              "key": "DVI",
-              "name": "DVI"
-            }
-          ]
+    "activeInputs": [
+        {
+          "key": "HDMI1",
+          "name": "HDMI 1"
+        },
+        {
+          "key": "HDMI2",
+          "name": "HDMI 2"
+        },
+        {
+          "key": "DVI",
+          "name": "DVI"
+        }
+    ]
   }
 }
 ```

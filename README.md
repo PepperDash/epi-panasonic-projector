@@ -32,7 +32,21 @@ This plugin is designed to work with Panasonic projectors controlled via TCP/IP 
     },
     "id": "01",
     "warmupTimeInSeconds":1,
-    "cooldownTimeInSeconds":2
+    "cooldownTimeInSeconds":2,
+        "activeInputs": [
+            {
+              "key": "HDMI1",
+              "name": "HDMI 1"
+            },
+            {
+              "key": "HDMI2",
+              "name": "HDMI 2"
+            },
+            {
+              "key": "DVI",
+              "name": "DVI"
+            }
+          ]
   }
 }
 ```
@@ -41,6 +55,8 @@ This plugin is designed to work with Panasonic projectors controlled via TCP/IP 
 
 - Valid `id` values are ZZ, 01 to 64, and 0A to 0Z
 - `warmupTimeInSeconds` and `cooldownTimeInSeconds` are optional. If they are omitted, the plugin will default to 1 second and 2 seconds respectively.
+- `activeInputs` are optional. If they are omitted, the plugin will include all inputs with their default names by default.
+- Valid `activeInputs` input keys are:  Computer1, Computer2, Video, S-Video, DVI, HDMI1, HDMI2, SDI and DigitalLink.
 
 ### TCP/IP
 
@@ -62,7 +78,23 @@ This plugin is designed to work with Panasonic projectors controlled via TCP/IP 
         "autoReconnectIntervalMs": 5000,
         "bufferSize": 32768
       }
-    }
+    },
+    "warmupTimeInSeconds":1,
+    "cooldownTimeInSeconds":2,
+    "activeInputs": [
+            {
+              "key": "HDMI1",
+              "name": "HDMI 1"
+            },
+            {
+              "key": "HDMI2",
+              "name": "HDMI 2"
+            },
+            {
+              "key": "DVI",
+              "name": "DVI"
+            }
+          ]
   }
 }
 ```

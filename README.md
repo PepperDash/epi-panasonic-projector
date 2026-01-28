@@ -90,3 +90,85 @@ To verify that the packages installed correctly, open the plugin solution in you
 ### Installing Different versions of PepperDash Core
 
 If you need a different version of PepperDash Core, use the command `nuget install .\packages.config -OutputDirectory .\packages -excludeVersion -Version {versionToGet}`. Omitting the `-Version` option will pull the version indicated in the packages.config file.
+<!-- START Minimum Essentials Framework Versions -->
+### Minimum Essentials Framework Versions
+
+- 2.4.7
+<!-- END Minimum Essentials Framework Versions -->
+<!-- START Config Example -->
+### Config Example
+
+```json
+{
+    "key": "GeneratedKey",
+    "uid": 1,
+    "name": "GeneratedName",
+    "type": "PanasonicProjector",
+    "group": "Group",
+    "properties": {
+        "control": "SampleValue",
+        "id": "SampleString",
+        "warmupTimeInSeconds": 0,
+        "cooldownTimeInSeconds": 0,
+        "activeInputs": [
+            {
+                "key": "SampleString",
+                "name": "SampleString"
+            }
+        ]
+    }
+}
+```
+<!-- END Config Example -->
+<!-- START Supported Types -->
+
+<!-- END Supported Types -->
+<!-- START Join Maps -->
+
+<!-- END Join Maps -->
+<!-- START Interfaces Implemented -->
+### Interfaces Implemented
+
+- IBridgeAdvanced
+- ICommunicationMonitor
+#if SERIES4
+- IHasInputs<byte>
+#endif
+- ICommandBuilder
+- IQueueMessage
+- ISelectableItems<byte>
+<!-- END Interfaces Implemented -->
+<!-- START Base Classes -->
+### Base Classes
+
+- TwoWayDisplayBase
+- StatusMonitorBase
+<!-- END Base Classes -->
+<!-- START Public Methods -->
+### Public Methods
+
+- public void LinkToApi(BasicTriList trilist, uint joinStart, string joinMapKey, EiscApiAdvanced bridge)
+- public void SendText(string text)
+- public void Poll()
+- public void SetInput(eInputTypes input)
+- public string GetCommand(string cmd, string parameter)
+- public string GetCommand(string cmd)
+- public void Dispatch()
+- public void Select()
+- public string GetCommand(string cmd, string parameter)
+- public string GetCommand(string cmd)
+<!-- END Public Methods -->
+<!-- START Bool Feedbacks -->
+### Bool Feedbacks
+
+- OnlineFeedback
+- ConnectFeedback
+<!-- END Bool Feedbacks -->
+<!-- START Int Feedbacks -->
+### Int Feedbacks
+
+- StatusFeedback
+<!-- END Int Feedbacks -->
+<!-- START String Feedbacks -->
+
+<!-- END String Feedbacks -->
